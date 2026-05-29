@@ -2,14 +2,21 @@
 
 OXID eShop Modul für den Massenexport und -import von Artikeldaten via Excel.
 
+Artikeldaten können als `.xlsx`-Datei exportiert, in Excel bearbeitet und anschließend wieder importiert werden — ohne einzelne Artikel manuell im Admin anzufassen.
+
 ## Voraussetzungen
 
 - OXID eShop >= 7.4
 - PHP >= 8.2
+- Composer
 
 ## Installation
 
-### 1. Repository in der Shop-`composer.json` eintragen
+### Schritt 1 — Repository bekannt machen
+
+Composer weiß standardmäßig nicht, wo dieses Modul liegt. Deshalb muss das GitHub-Repository einmalig in der `composer.json` deines Shops eingetragen werden.
+
+Öffne die `composer.json` im Shop-Root und füge den `repositories`-Block hinzu (falls noch kein solcher Block existiert, wird er neu angelegt; falls bereits Einträge vorhanden sind, einfach das Objekt ergänzen):
 
 ```json
 "repositories": [
@@ -20,32 +27,58 @@ OXID eShop Modul für den Massenexport und -import von Artikeldaten via Excel.
 ]
 ```
 
-### 2. Modul installieren
+> **Hinweis:** Das Repository ist aktuell privat. Du benötigst einen GitHub-Token mit Lesezugriff in deiner `auth.json`:
+> ```json
+> {
+>     "github-oauth": {
+>         "github.com": "DEIN_GITHUB_TOKEN"
+>     }
+> }
+> ```
+> Einen Token erstellst du unter: GitHub → Settings → Developer Settings → Personal Access Tokens → Tokens (classic) → Scope: `repo`
+
+### Schritt 2 — Modul per Composer installieren
 
 ```bash
 composer require suedlicht/eximport
+```
+
+Composer lädt das Modul herunter und legt es unter `vendor/suedlicht/eximport` ab.
+
+### Schritt 3 — Modul im Shop registrieren und aktivieren
+
+```bash
 vendor/bin/oe-console oe:module:install ./vendor/suedlicht/eximport
 vendor/bin/oe-console oe:module:activate eximport
 ```
 
-## Features
-
-- **Export**: Artikeldaten als `.xlsx`-Datei herunterladen
-- **Import**: Excel-Datei hochladen und Artikel massenweise aktualisieren
-- **Blueprint-System**: Erweiterbare Varianten für unterschiedliche Exportformate (Standard, Kategorie-Join, eigene)
-- **Virtuelle Felder**: Joins über mehrere Tabellen (z. B. Kategorien) per Export/Import bearbeitbar
+Der erste Befehl registriert das Modul im Shop. Der zweite Befehl aktiviert es, sodass es im Admin erscheint.
 
 ## Verwendung
 
-Das Modul fügt unter **Admin → (Menüpunkt)** eine Oberfläche hinzu, über die:
+Nach der Aktivierung erscheint im OXID-Admin ein neuer Menüpunkt. Dort stehen zwei Funktionen zur Verfügung:
 
-1. eine Export-Variante gewählt wird
-2. die Artikel als Excel-Datei heruntergeladen werden
-3. die bearbeitete Datei wieder hochgeladen wird
+**Export**
+1. Export-Variante aus dem Dropdown wählen (z. B. "Standard" oder "Kategorie")
+2. Auf "Artikel exportieren" klicken
+3. Die erzeugte `.xlsx`-Datei wird automatisch heruntergeladen
 
-## Eigene Varianten entwickeln
+**Import**
+1. Exportierte und bearbeitete Excel-Datei auswählen
+2. Dieselbe Variante wie beim Export wählen
+3. Auf "Artikel importieren" klicken
+4. Das Ergebnis (Anzahl Erfolge / Fehler) wird direkt angezeigt
 
-Siehe [Entwickler-Leitfaden.md](Entwickler-Leitfaden.md) für eine vollständige Anleitung zum Hinzufügen eigener Export/Import-Varianten (inkl. virtueller Felder).
+> Die Spaltenstruktur der Excel-Datei muss mit der gewählten Variante übereinstimmen. Verändere keine Spaltenreihenfolge oder Überschriften.
+
+## Export-Varianten
+
+| Variante | Inhalt |
+|---|---|
+| `standard` | Artikel-ID und Titel aus `oxarticles` |
+| `article_category` | Artikel-ID, Artikelnummer, Titel und zugeordnete Kategorie-IDs |
+
+Eigene Varianten können ohne Änderung am Kern-Code hinzugefügt werden — siehe [Entwickler-Leitfaden.md](Entwickler-Leitfaden.md).
 
 ## Updates einspielen
 
