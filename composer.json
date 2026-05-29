@@ -1,0 +1,38 @@
+{
+    "name": "suedlicht/eximport",
+    "description": "OXID Artikel Excel Import/Export Modul",
+    "type": "oxideshop-module",
+    "keywords": [
+        "oxid",
+        "modules",
+        "eShop"
+    ],
+    "license": [
+        "proprietary"
+    ],
+    "require": {
+        "php": "^8.2",
+        "phpoffice/phpspreadsheet": "^1.29"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "conflict": {
+        "oxid-esales/oxideshop-ce": "<7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Suedlicht\\Eximport\\": "src/"
+        }
+    },
+    "extra": {
+        "oxideshop": {
+            "module-id": "eximport"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "oxid-esales/oxideshop-composer-plugin": true,
+            "oxid-esales/oxideshop-unified-namespace-generator": true
+        }
+    }
+}

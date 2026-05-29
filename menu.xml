@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OX>
+    <OXMENU id="NAVIGATION_ESHOPADMIN">
+        <MAINMENU id="felixmodule_main">
+            <SUBMENU id="exim_main_menu" cl="exim_main" />
+        </MAINMENU>
+    </OXMENU>
+</OX>

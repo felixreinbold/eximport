@@ -1,0 +1,260 @@
+
+
+{# Standard OXID-Admin Header (inkludiert JS-Bibliotheken und Basis-Styles) #}
+{% include "headitem.html.twig" with {title: "v_main_title"|translate} %}
+
+{# 
+  Scope: Modul-spezifisches Styling
+  Design-Konzept: Modernes "Slate"-Design (Tailwind-inspiriert), passend zum OXID Admin Look 
+#}
+<style>
+    /* Kurzbeschreibung Header */
+    .module-intro {
+        margin-bottom: 24px;
+        margin-top: 16px;
+        font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .module-intro h1 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #0f172a;
+        margin-top: 0;
+        margin-bottom: 8px;
+    }
+
+    .module-intro p {
+        font-size: 0.95rem;
+        color: #475569;
+        margin: 0;
+        line-height: 1.6;
+        max-width: 800px;
+    }
+
+    /* Info-Karte für Erklärungen und Hinweise */
+    .info-card {
+        border: 1px solid #cbd5e1;
+        background-color: #f8fafc;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 24px;
+        font-family: system-ui, -apple-system, sans-serif;
+    }
+
+    .info-card h2 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: #0f172a;
+        margin-top: 0;
+        margin-bottom: 16px;
+        border-bottom: 1px solid #e2e8f0;
+        padding-bottom: 12px;
+    }
+
+    /* Grid/Flex-Layout für die Beschreibungen - einfach erweiterbar */
+    .variant-list {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .variant-item {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .variant-title {
+        font-weight: 600;
+        color: #334155;
+        font-size: 0.95rem;
+    }
+
+    .variant-desc {
+        color: #475569;
+        font-size: 0.875rem;
+        margin: 0;
+        line-height: 1.5;
+    }
+
+    /* Hauptcontainer für die Import/Export Aktionen */
+    .excel-action-card {
+        border: 1px solid #e2e8f0;
+        background-color: #ffffff;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 24px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        font-family: system-ui, -apple-system, sans-serif;
+    }
+    
+    /* Legende (Titel der Card) */
+    .excel-action-card legend {
+        font-weight: 600;
+        color: #334155;
+        padding: 0 8px;
+        font-size: 0.95rem;
+    }
+
+    /* Layout-Wrapper für die Button-Gruppen */
+    .excel-action-wrapper {
+        display: flex;
+        gap: 24px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    /* Gruppierung von Label, Select und Button */
+    .excel-action-group {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+    }
+
+    /* Vertikaler Trenner zwischen Export und Import */
+    .excel-divider {
+        width: 1px;
+        height: 32px;
+        background-color: #e2e8f0;
+    }
+
+    /* Basis-Button-Design (Modern Minimalist) */
+    .btn-modern {
+        background-color: #ffffff;
+        border: 1px solid #cbd5e1;
+        color: #334155;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn-modern:hover {
+        background-color: #f8fafc;
+        border-color: #94a3b8;
+    }
+
+    /* Akzent-Button für primäre Aktionen (z.B. Import) */
+    .btn-primary {
+        background-color: #0f172a;
+        color: #334155;
+        border: 1px solid #0f172a;
+    }
+
+    .btn-primary:hover {
+        background-color: #1e293b;
+        border-color: #1e293b;
+    }
+
+    /* Styling des Datei-Upload-Eingabefeldes */
+    .file-input-modern {
+        font-size: 0.875rem;
+        color: #475569;
+    }
+
+    .file-input-modern::file-selector-button {
+        background-color: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        color: #334155;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-right: 12px;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .select-modern {
+        padding: 8px;
+        border-radius: 6px;
+        border: 1px solid #cbd5e1;
+        font-size: 0.875rem;
+        color: #334155;
+        background-color: #ffffff;
+    }
+</style>
+
+{# 
+  Standard OXID 'transfer' Formular. 
+#}
+<form name="transfer" id="transfer" action="{{ oViewConf.getSelfLink()|raw }}" method="post">
+    {{ oViewConf.getHiddenSid()|raw }}
+    <input type="hidden" name="cl" value="eximport_main">
+    <input type="hidden" name="fnc" value="">
+</form>
+
+{# 
+  Hauptformular (myedit)
+#}
+<form name="myedit" id="myedit" action="{{ oViewConf.getSelfLink()|raw }}" method="post" enctype="multipart/form-data">
+    {# CSRF & Session Token Sicherheit #}
+    {{ oViewConf.getHiddenSid()|raw }}
+    
+    {# Ziel-Controller: eximport_main #}
+    <input type="hidden" name="cl" value="eximport_main">
+    <input type="hidden" name="fnc" value="">
+
+    {# --------------------------------------------------
+       NEU: Modul-Kurzbeschreibung (Einleitung)
+    --------------------------------------------------- #}
+    <div class="module-intro">
+        <h1>EXIM  Artikeldaten Import & Export</h1>
+        <p>Verwalten Sie Ihre Artikeldaten effizient über Excel. Mit diesem Modul können Sie gezielt Produktinformationen exportieren, in Excel bearbeiten und anschließend zur Massenaktualisierung wieder in Ihren OXID eShop importieren.</p>
+    </div>
+
+    {# Beschreibungs-Bereich für die Varianten #}
+    <div class="info-card">
+        <h2>Verfügbare Export-Varianten</h2>
+        <div class="variant-list">
+            
+            <div class="variant-item">
+                <div class="variant-title">Standard</div>
+                <p class="variant-desc">Die Standard-Variante exportiert alle Artikel, die sich in Ihrer Datenbank befinden, und listet diese in einem Excel-Dokument auf.</p>
+            </div>
+            
+            <div class="variant-item">
+                <div class="variant-title">Kategorie</div>
+                <p class="variant-desc">Die Kategorie-Variante exportiert alle Artikel mit den dazugehörigen Kategorien.</p>
+            </div>
+            
+        </div>
+    </div>
+
+    <fieldset class="excel-action-card">
+        <legend>{{ 'eximport_main_menu'|translate }}</legend>
+        <div class="excel-action-wrapper">
+            
+            {# Bereich 1: Export-Konfiguration #}
+            <div class="excel-action-group">
+                <label for="exportVariant">Variante:</label>
+                <select name="exportVariant" id="exportVariant" class="select-modern">
+                    <option value="standard">
+                    {{ translate({ ident: 'EXIM_EXPORT_VARIANT_STANDARD' }) }}
+                    </option>
+                    <option value="article_category">
+                    {{ translate({ ident: 'EXIM_EXPORT_VARIANT_CATEGORY' }) }}
+                    </option>
+                </select>
+                
+                <input type="submit" class="btn-modern" value="Artikel exportieren"
+                       onclick="document.myedit.fnc.value='exportToExcel';">
+            </div>
+            
+            <div class="excel-divider"></div>
+
+            {# Bereich 2: Datei-Import #}
+            <div class="excel-action-group">
+                <input type="file" name="import_file" accept=".xlsx,.xls" class="file-input-modern">
+                
+                <input type="submit" class="btn-modern btn-primary" value="Artikel importieren"
+                       onclick="document.myedit.fnc.value='importFromExcel';">
+            </div>
+            
+        </div>
+    </fieldset>
+</form>
+
+{# Standard OXID-Admin Footer #}
+{% include "bottomnaviitem.html.twig" %}
