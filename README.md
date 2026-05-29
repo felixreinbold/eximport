@@ -40,10 +40,12 @@ Composer weiß standardmäßig nicht, wo dieses Modul liegt. Deshalb muss das Gi
 ### Schritt 2 — Modul per Composer installieren
 
 ```bash
-composer require suedlicht/eximport
+composer require suedlicht/eximport:^1.0.0
 ```
 
 Composer lädt das Modul herunter und legt es unter `vendor/suedlicht/eximport` ab.
+
+> Ohne Versionsangabe installiert Composer die neueste verfügbare Version. Mit `^1.0.0` wird gezielt die aktuelle stabile Version installiert und bei `composer update` automatisch auf kompatible Folgeversionen (1.x.x) aktualisiert.
 
 ### Schritt 3 — Modul im Shop registrieren und aktivieren
 
